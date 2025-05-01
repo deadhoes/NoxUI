@@ -1,217 +1,265 @@
--- NoxUI Example: Simple UI Library
+-- NoxUI Initialization Code
 
-local NoxUI = {}
-local CoreGui = game:GetService("CoreGui")
+local NoxUI = {}  -- Initialize NoxUI table
 
--- Theme Settings (colors)
+-- Theme (Customize colors here)
 local theme = {
     Background = Color3.fromRGB(30, 30, 30),
-    Accent = Color3.fromRGB(60, 60, 60),
-    Text = Color3.fromRGB(255, 255, 255),
-    Button = Color3.fromRGB(40, 40, 40)
+    Accent = Color3.fromRGB(75, 75, 75),
+    Button = Color3.fromRGB(255, 100, 100),
+    Text = Color3.fromRGB(255, 255, 255)
 }
 
--- Create the main window
-function NoxUI:CreateWindow(config)
-    local Title = config.Title or "NoxUI Window"
-    local Version = config.Version or "v1.0"
-
+-- Function to create the main UI window
+function NoxUI:CreateWindow(options)
     -- Create the main ScreenGui
-    local ScreenGui = Instance.new("ScreenGui", CoreGui)
-    ScreenGui.Name = "NoxUI_Main"
-    ScreenGui.ResetOnSpawn = false
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = options.Title or "NoxUI"
+    screenGui.ResetOnSpawn = false
+    screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
-    local MainFrame = Instance.new("Frame", ScreenGui)
-    MainFrame.Size = UDim2.new(0, 500, 0, 350)
-    MainFrame.Position = UDim2.new(0.3, 0, 0.3, 0)
-    MainFrame.BackgroundColor3 = theme.Background
-    MainFrame.BorderSizePixel = 0
-    MainFrame.Name = "MainFrame"
-    MainFrame.ClipsDescendants = true
+    -- Create the main frame for the window
+    local mainFrame = Instance.new("Frame")
+    mainFrame.Size = UDim2.new(0, 400, 0, 300) -- Default size
+    mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150) -- Centered on screen
+    mainFrame.BackgroundColor3 = theme.Background
+    mainFrame.BorderSizePixel = 0
+    mainFrame.Parent = screenGui
 
-    local UICorner = Instance.new("UICorner", MainFrame)
-    UICorner.CornerRadius = UDim.new(0, 6)
+    -- Add a title to the window
+    local title = Instance.new("TextLabel")
+    title.Size = UDim2.new(1, 0, 0, 30)
+    title.Position = UDim2.new(0, 0, 0, 0)
+    title.BackgroundColor3 = theme.Accent
+    title.Text = options.Title or "NoxUI Window"
+    title.TextColor3 = theme.Text
+    title.Font = Enum.Font.GothamBold
+    title.TextSize = 18
+    title.TextXAlignment = Enum.TextXAlignment.Center
+    title.Parent = mainFrame
 
-    -- Create the title label
-    local TitleLabel = Instance.new("TextLabel", MainFrame)
-    TitleLabel.Text = Title .. " - " .. Version
-    TitleLabel.Size = UDim2.new(1, -30, 0, 30)
-    TitleLabel.Position = UDim2.new(0, 10, 0, 5)
-    TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
-    TitleLabel.BackgroundTransparency = 1
-    TitleLabel.TextColor3 = theme.Text
-    TitleLabel.Font = Enum.Font.GothamBold
-    TitleLabel.TextSize = 16
+    -- Add a close button
+    local closeButton = Instance.new("TextButton")
+    closeButton.Size = UDim2.new(0, 50, 0, 25)
+    closeButton.Position = UDim2.new(1, -60, 0, 5)
+    closeButton.Text = "Close"
+    closeButton.BackgroundColor3 = theme.Button
+    closeButton.TextColor3 = theme.Text
+    closeButton.Font = Enum.Font.Gotham
+    closeButton.TextSize = 14
+    closeButton.Parent = mainFrame
 
-    -- Create the Close button
-    local CloseButton = Instance.new("TextButton", MainFrame)
-    CloseButton.Size = UDim2.new(0, 25, 0, 25)
-    CloseButton.Position = UDim2.new(1, -30, 0, 5)
-    CloseButton.Text = "X"
-    CloseButton.BackgroundColor3 = theme.Button
-    CloseButton.TextColor3 = theme.Text
-    CloseButton.Font = Enum.Font.GothamBold
-    CloseButton.TextSize = 14
-    CloseButton.MouseButton1Click:Connect(function()
-        ScreenGui:Destroy()
+    -- Close the window when the button is clicked
+    closeButton.MouseButton1Click:Connect(function()
+        screenGui:Destroy()
     end)
 
-    -- Add a button to the window
-    local ExampleButton = Instance.new("TextButton", MainFrame)
-    ExampleButton.Size = UDim2.new(0, 150, 0, 40)
-    ExampleButton.Position = UDim2.new(0.5, -75, 0.5, -20)
-    ExampleButton.Text = "Click Me"
-    ExampleButton.BackgroundColor3 = theme.Button
-    ExampleButton.TextColor3 = theme.Text
-    ExampleButton.Font = Enum.Font.Gotham
-    ExampleButton.TextSize = 16
-    ExampleButton.MouseButton1Click:Connect(function()
-        print("Button clicked!")
-    end)
+    -- Add a version label if needed
+    if options.Version then
+        local versionLabel = Instance.new("TextLabel")
+        versionLabel.Text = "Version: " .. options.Version
+        versionLabel.Size = UDim2.new(0, 150, 0, 20)
+        versionLabel.Position = UDim2.new(1, -160, 1, -30)
+        versionLabel.BackgroundTransparency = 1
+        versionLabel.TextColor3 = theme.Text
+        versionLabel.Font = Enum.Font.Gotham
+        versionLabel.TextSize = 12
+        versionLabel.Parent = mainFrame
+    end
 
-    return NoxUI
+    -- Return the ScreenGui and mainFrame for further customization
+    return {ScreenGui = screenGui, MainFrame = mainFrame}
 end
 
--- Example usage
-local ui = NoxUI:CreateWindow({Title = "My Custom UI", Version = "v1.0"})
+-- Example of usage
+local ui = NoxUI:CreateWindow({Title = "My UI Window", Version = "1.0"})
 
--- NoxUI Example: Add More Features
+-- Add Divider (Example)
+local divider = Instance.new("Frame")
+divider.Size = UDim2.new(1, 0, 0, 2)
+divider.Position = UDim2.new(0, 0, 0, 40)
+divider.BackgroundColor3 = theme.Accent
+divider.Parent = ui.MainFrame
 
--- Add Divider
-function NoxUI:AddDivider(parent, size, position)
-    local Divider = Instance.new("Frame")
-    Divider.Size = UDim2.new(1, 0, 0, size or 2)
-    Divider.Position = position or UDim2.new(0, 0, 0, 0)
-    Divider.BackgroundColor3 = theme.Accent
-    Divider.BorderSizePixel = 0
-    Divider.Parent = parent
-    return Divider
-end
+-- Add Selection Title (Example)
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(0, 150, 0, 25)
+titleLabel.Position = UDim2.new(0, 10, 0, 50)
+titleLabel.Text = "Settings"
+titleLabel.BackgroundTransparency = 1
+titleLabel.TextColor3 = theme.Text
+titleLabel.Font = Enum.Font.Gotham
+titleLabel.TextSize = 14
+titleLabel.Parent = ui.MainFrame
 
--- Add Selection Title
-function NoxUI:AddSelectionTitle(parent, title)
-    local SelectionTitle = Instance.new("TextLabel")
-    SelectionTitle.Text = title
-    SelectionTitle.Size = UDim2.new(1, -20, 0, 30)
-    SelectionTitle.Position = UDim2.new(0, 10, 0, 30)
-    SelectionTitle.BackgroundTransparency = 1
-    SelectionTitle.TextColor3 = theme.Text
-    SelectionTitle.Font = Enum.Font.GothamBold
-    SelectionTitle.TextSize = 18
-    SelectionTitle.TextXAlignment = Enum.TextXAlignment.Left
-    SelectionTitle.Parent = parent
-    return SelectionTitle
-end
+-- Add a Toggle Button
+local toggleButton = Instance.new("TextButton")
+toggleButton.Size = UDim2.new(0, 200, 0, 30)
+toggleButton.Position = UDim2.new(0, 10, 0, 100)
+toggleButton.Text = "Enable Feature"
+toggleButton.BackgroundColor3 = theme.Button
+toggleButton.TextColor3 = theme.Text
+toggleButton.Font = Enum.Font.Gotham
+toggleButton.TextSize = 14
+toggleButton.Parent = ui.MainFrame
 
--- Add Toggle Button
-function NoxUI:AddToggleButton(parent, title, defaultValue, callback)
-    local ToggleFrame = Instance.new("Frame")
-    ToggleFrame.Size = UDim2.new(1, -20, 0, 40)
-    ToggleFrame.Position = UDim2.new(0, 10, 0, 70)
-    ToggleFrame.BackgroundColor3 = theme.Background
-    ToggleFrame.BorderSizePixel = 0
-    ToggleFrame.Parent = parent
-    
-    local TitleLabel = Instance.new("TextLabel")
-    TitleLabel.Text = title
-    TitleLabel.Size = UDim2.new(0.7, 0, 1, 0)
-    TitleLabel.Position = UDim2.new(0, 10, 0, 0)
-    TitleLabel.BackgroundTransparency = 1
-    TitleLabel.TextColor3 = theme.Text
-    TitleLabel.Font = Enum.Font.Gotham
-    TitleLabel.TextSize = 16
-    TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
-    TitleLabel.Parent = ToggleFrame
-    
-    local ToggleButton = Instance.new("TextButton")
-    ToggleButton.Size = UDim2.new(0, 50, 0, 25)
-    ToggleButton.Position = UDim2.new(1, -60, 0, 7)
-    ToggleButton.Text = defaultValue and "ON" or "OFF"
-    ToggleButton.BackgroundColor3 = theme.Button
-    ToggleButton.TextColor3 = theme.Text
-    ToggleButton.Font = Enum.Font.GothamBold
-    ToggleButton.TextSize = 14
-    ToggleButton.Parent = ToggleFrame
-    
-    ToggleButton.MouseButton1Click:Connect(function()
-        defaultValue = not defaultValue
-        ToggleButton.Text = defaultValue and "ON" or "OFF"
-        if callback then
-            callback(defaultValue)
-        end
-    end)
-
-    return ToggleButton
-end
-
--- Add Slider
-function NoxUI:AddSlider(parent, title, min, max, defaultValue, callback)
-    local SliderFrame = Instance.new("Frame")
-    SliderFrame.Size = UDim2.new(1, -20, 0, 40)
-    SliderFrame.Position = UDim2.new(0, 10, 0, 110)
-    SliderFrame.BackgroundColor3 = theme.Background
-    SliderFrame.BorderSizePixel = 0
-    SliderFrame.Parent = parent
-    
-    local TitleLabel = Instance.new("TextLabel")
-    TitleLabel.Text = title
-    TitleLabel.Size = UDim2.new(0.7, 0, 1, 0)
-    TitleLabel.Position = UDim2.new(0, 10, 0, 0)
-    TitleLabel.BackgroundTransparency = 1
-    TitleLabel.TextColor3 = theme.Text
-    TitleLabel.Font = Enum.Font.Gotham
-    TitleLabel.TextSize = 16
-    TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
-    TitleLabel.Parent = SliderFrame
-    
-    local Slider = Instance.new("Frame")
-    Slider.Size = UDim2.new(1, -20, 0, 5)
-    Slider.Position = UDim2.new(0, 10, 1, -10)
-    Slider.BackgroundColor3 = theme.Accent
-    Slider.BorderSizePixel = 0
-    Slider.Parent = SliderFrame
-    
-    local Handle = Instance.new("Frame")
-    Handle.Size = UDim2.new(0, 20, 0, 20)
-    Handle.Position = UDim2.new(0, (defaultValue - min) / (max - min) * (Slider.Size.X.Offset - 20), 0, -7)
-    Handle.BackgroundColor3 = theme.Button
-    Handle.BorderSizePixel = 0
-    Handle.Parent = Slider
-    
-    local SliderInput = Instance.new("TextButton")
-    SliderInput.Size = UDim2.new(1, 0, 1, 0)
-    SliderInput.Position = UDim2.new(0, 0, 0, 0)
-    SliderInput.BackgroundTransparency = 1
-    SliderInput.Parent = Slider
-    
-    SliderInput.MouseButton1Drag:Connect(function()
-        local mousePos = game:GetService("UserInputService"):GetMouseLocation()
-        local offset = math.clamp(mousePos.X - Slider.AbsolutePosition.X, 0, Slider.Size.X.Offset - 20)
-        local newValue = min + (offset / (Slider.Size.X.Offset - 20)) * (max - min)
-        Handle.Position = UDim2.new(0, offset, 0, -7)
-        if callback then
-            callback(newValue)
-        end
-    end)
-
-    return Slider
-end
-
--- Example usage with additional features
-local ui = NoxUI:CreateWindow({Title = "My Extended UI", Version = "v1.1"})
-
--- Add Divider
-NoxUI:AddDivider(ui.MainFrame, 2, UDim2.new(0, 0, 0, 40))
-
--- Add Selection Title
-NoxUI:AddSelectionTitle(ui.MainFrame, "Settings")
-
--- Add Toggle Button
-NoxUI:AddToggleButton(ui.MainFrame, "Enable Feature", true, function(value)
-    print("Feature enabled:", value)
+toggleButton.MouseButton1Click:Connect(function()
+    print("Feature toggled")
 end)
 
--- Add Slider
-NoxUI:AddSlider(ui.MainFrame, "Volume", 0, 100, 50, function(value)
+-- Add a Slider (Example)
+local slider = Instance.new("TextButton")
+slider.Size = UDim2.new(0, 200, 0, 30)
+slider.Position = UDim2.new(0, 10, 0, 150)
+slider.Text = "Volume: 50"
+slider.BackgroundColor3 = theme.Button
+slider.TextColor3 = theme.Text
+slider.Font = Enum.Font.Gotham
+slider.TextSize = 14
+slider.Parent = ui.MainFrame
+
+slider.MouseButton1Click:Connect(function()
+    local value = math.random(0, 100)
+    slider.Text = "Volume: " .. value
     print("Volume set to:", value)
+end)
+
+-- Add a Dropdown (Example)
+local dropdownLabel = Instance.new("TextLabel")
+dropdownLabel.Size = UDim2.new(0, 200, 0, 25)
+dropdownLabel.Position = UDim2.new(0, 10, 0, 200)
+dropdownLabel.Text = "Select Option"
+dropdownLabel.BackgroundTransparency = 1
+dropdownLabel.TextColor3 = theme.Text
+dropdownLabel.Font = Enum.Font.Gotham
+dropdownLabel.TextSize = 14
+dropdownLabel.Parent = ui.MainFrame
+
+local dropdown = Instance.new("TextButton")
+dropdown.Size = UDim2.new(0, 200, 0, 30)
+dropdown.Position = UDim2.new(0, 10, 0, 230)
+dropdown.Text = "Choose"
+dropdown.BackgroundColor3 = theme.Button
+dropdown.TextColor3 = theme.Text
+dropdown.Font = Enum.Font.Gotham
+dropdown.TextSize = 14
+dropdown.Parent = ui.MainFrame
+
+local dropdownMenu = Instance.new("Frame")
+dropdownMenu.Size = UDim2.new(0, 200, 0, 100)
+dropdownMenu.Position = UDim2.new(0, 10, 0, 260)
+dropdownMenu.BackgroundColor3 = theme.Background
+dropdownMenu.Visible = false
+dropdownMenu.Parent = ui.MainFrame
+
+-- Add options to dropdown menu
+local option1 = Instance.new("TextButton")
+option1.Size = UDim2.new(0, 200, 0, 30)
+option1.Position = UDim2.new(0, 0, 0, 0)
+option1.Text = "Option 1"
+option1.BackgroundColor3 = theme.Button
+option1.TextColor3 = theme.Text
+option1.Font = Enum.Font.Gotham
+option1.TextSize = 14
+option1.Parent = dropdownMenu
+
+local option2 = Instance.new("TextButton")
+option2.Size = UDim2.new(0, 200, 0, 30)
+option2.Position = UDim2.new(0, 0, 0, 35)
+option2.Text = "Option 2"
+option2.BackgroundColor3 = theme.Button
+option2.TextColor3 = theme.Text
+option2.Font = Enum.Font.Gotham
+option2.TextSize = 14
+option2.Parent = dropdownMenu
+
+local option3 = Instance.new("TextButton")
+option3.Size = UDim2.new(0, 200, 0, 30)
+option3.Position = UDim2.new(0, 0, 0, 70)
+option3.Text = "Option 3"
+option3.BackgroundColor3 = theme.Button
+option3.TextColor3 = theme.Text
+option3.Font = Enum.Font.Gotham
+option3.TextSize = 14
+option3.Parent = dropdownMenu
+
+-- Show or hide the dropdown menu when the dropdown button is clicked
+dropdown.MouseButton1Click:Connect(function()
+    dropdownMenu.Visible = not dropdownMenu.Visible
+end)
+
+-- When an option is selected, close the dropdown and display the selected option
+option1.MouseButton1Click:Connect(function()
+    dropdown.Text = "Option 1"
+    dropdownMenu.Visible = false
+end)
+
+option2.MouseButton1Click:Connect(function()
+    dropdown.Text = "Option 2"
+    dropdownMenu.Visible = false
+end)
+
+option3.MouseButton1Click:Connect(function()
+    dropdown.Text = "Option 3"
+    dropdownMenu.Visible = false
+end)
+
+-- Add a progress bar (Example)
+local progressLabel = Instance.new("TextLabel")
+progressLabel.Size = UDim2.new(0, 200, 0, 25)
+progressLabel.Position = UDim2.new(0, 10, 0, 320)
+progressLabel.Text = "Loading..."
+progressLabel.BackgroundTransparency = 1
+progressLabel.TextColor3 = theme.Text
+progressLabel.Font = Enum.Font.Gotham
+progressLabel.TextSize = 14
+progressLabel.Parent = ui.MainFrame
+
+local progressBar = Instance.new("Frame")
+progressBar.Size = UDim2.new(0, 200, 0, 20)
+progressBar.Position = UDim2.new(0, 10, 0, 350)
+progressBar.BackgroundColor3 = theme.Accent
+progressBar.Parent = ui.MainFrame
+
+local progressFill = Instance.new("Frame")
+progressFill.Size = UDim2.new(0, 0, 1, 0)
+progressFill.BackgroundColor3 = theme.Button
+progressFill.Parent = progressBar
+
+-- Simulate loading progress
+local function simulateLoading()
+    for i = 0, 100 do
+        progressFill.Size = UDim2.new(i / 100, 0, 1, 0)
+        wait(0.05)
+    end
+    progressLabel.Text = "Loaded"
+end
+
+simulateLoading()
+
+-- Add a text input field (Example)
+local textInputLabel = Instance.new("TextLabel")
+textInputLabel.Size = UDim2.new(0, 200, 0, 25)
+textInputLabel.Position = UDim2.new(0, 10, 0, 380)
+textInputLabel.Text = "Enter your name:"
+textInputLabel.BackgroundTransparency = 1
+textInputLabel.TextColor3 = theme.Text
+textInputLabel.Font = Enum.Font.Gotham
+textInputLabel.TextSize = 14
+textInputLabel.Parent = ui.MainFrame
+
+local textInput = Instance.new("TextBox")
+textInput.Size = UDim2.new(0, 200, 0, 30)
+textInput.Position = UDim2.new(0, 10, 0, 410)
+textInput.Text = ""
+textInput.BackgroundColor3 = theme.Button
+textInput.TextColor3 = theme.Text
+textInput.Font = Enum.Font.Gotham
+textInput.TextSize = 14
+textInput.PlaceholderText = "Type here..."
+textInput.Parent = ui.MainFrame
+
+-- When text input is changed, print the value
+textInput.Changed:Connect(function()
+    print("Text entered: " .. textInput.Text)
 end)
