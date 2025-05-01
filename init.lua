@@ -1,116 +1,180 @@
--- NoxUI Library (Roblox UI Kütüphanesi)
-local NoxUI = {}
+-- Rayfield UI Library (init.lua)
 
--- **1. Create Window**
-function NoxUI:CreateWindow(title)
-    local player = game.Players.LocalPlayer
-    local playerGui = player:WaitForChild("PlayerGui")
-    local screenGui = Instance.new("ScreenGui", playerGui)
-    screenGui.Name = "NoxUI_Main"
-    screenGui.ResetOnSpawn = false
-    screenGui.Visible = true
+local UILib = {}
 
-    -- Main window
-    local mainFrame = Instance.new("Frame", screenGui)
-    mainFrame.Name = "NoxUI_Window"
-    mainFrame.Size = UDim2.new(0, 400, 0, 300)
-    mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
-    mainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-    mainFrame.BorderSizePixel = 0
-    mainFrame.Active = true
-    mainFrame.Draggable = true
+-- Create a window
+function UILib:CreateWindow(title)
+    local window = Instance.new("ScreenGui")
+    window.Name = title
+    window.ResetOnSpawn = false
+    window.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
-    -- Title Bar
-    local titleBar = Instance.new("Frame", mainFrame)
-    titleBar.Name = "NoxUI_TitleBar"
-    titleBar.Size = UDim2.new(1, 0, 0, 50)
-    titleBar.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(0, 600, 0, 400)
+    frame.Position = UDim2.new(0, 50, 0, 50)
+    frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    frame.BorderSizePixel = 0
+    frame.Parent = window
 
-    local titleLabel = Instance.new("TextLabel", titleBar)
-    titleLabel.Text = title
-    titleLabel.Size = UDim2.new(1, 0, 1, 0)
-    titleLabel.BackgroundTransparency = 1
-    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-    titleLabel.Font = Enum.Font.GothamBold
-    titleLabel.TextScaled = true
+    local header = Instance.new("TextLabel")
+    header.Size = UDim2.new(1, 0, 0, 30)
+    header.Text = title
+    header.TextColor3 = Color3.fromRGB(255, 255, 255)
+    header.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    header.TextSize = 18
+    header.Font = Enum.Font.SourceSansBold
+    header.Parent = frame
 
-    -- Content area
-    local content = Instance.new("Frame", mainFrame)
-    content.Name = "NoxUI_Content"
-    content.Position = UDim2.new(0, 0, 0, 50)
-    content.Size = UDim2.new(1, 0, 1, -50)
-    content.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-    content.BorderSizePixel = 0
-
-    -- Layout for content items
-    local listLayout = Instance.new("UIListLayout", content)
-    listLayout.Padding = UDim.new(0, 6)
-    listLayout.SortOrder = Enum.SortOrder.LayoutOrder
-
-    -- **2. Add List Item**
-    function NoxUI:AddListItem(text, callback)
-        local listItem = Instance.new("TextButton", content)
-        listItem.Size = UDim2.new(1, -20, 0, 40)
-        listItem.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-        listItem.Text = text
-        listItem.TextColor3 = Color3.fromRGB(255, 255, 255)
-        listItem.Font = Enum.Font.Gotham
-        listItem.TextScaled = true
-        listItem.AutoButtonColor = true
-        listItem.BorderSizePixel = 0
-        listItem.MouseButton1Click:Connect(callback)
+    -- Customizable background image
+    function window:SetBackgroundImage(url)
+        local imageLabel = Instance.new("ImageLabel")
+        imageLabel.Size = UDim2.new(1, 0, 1, 0)
+        imageLabel.Position = UDim2.new(0, 0, 0, 30)
+        imageLabel.Image = url
+        imageLabel.BackgroundTransparency = 1
+        imageLabel.Parent = frame
     end
 
-    -- **3. Add Input Field**
-    function NoxUI:AddInputField(placeholder, callback)
-        local inputBox = Instance.new("TextBox", content)
-        inputBox.Size = UDim2.new(1, -20, 0, 40)
-        inputBox.Position = UDim2.new(0, 0, 0, 10)
-        inputBox.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-        inputBox.PlaceholderText = placeholder
-        inputBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-        inputBox.Font = Enum.Font.Gotham
-        inputBox.TextScaled = true
-        inputBox.BorderSizePixel = 0
-        inputBox.ClearTextOnFocus = true
-        inputBox.FocusLost:Connect(function()
-            callback(inputBox.Text)
-        end)
+    -- Responsive resizing
+    function window:SetResponsive(isResponsive)
+        if isResponsive then
+            frame.Size = UDim2.new(0.5, 0, 0.5, 0)
+        end
     end
 
-    -- **4. Modal (Pop-up)**
-    function NoxUI:CreateModal(message, buttonText, callback)
-        local modal = Instance.new("Frame", screenGui)
-        modal.Size = UDim2.new(0, 300, 0, 150)
-        modal.Position = UDim2.new(0.5, -150, 0.5, -75)
-        modal.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-        modal.BorderSizePixel = 0
-        modal.Visible = true
+    -- Enable dragging the window
+    function window:EnableWindowDrag(enable)
+        if enable then
+            local dragInput, dragStart, startPos
 
-        local textLabel = Instance.new("TextLabel", modal)
-        textLabel.Text = message
-        textLabel.Size = UDim2.new(1, 0, 0.6, 0)
-        textLabel.BackgroundTransparency = 1
-        textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-        textLabel.Font = Enum.Font.GothamBold
-        textLabel.TextScaled = true
+            local function update(input)
+                local delta = input.Position - dragStart
+                frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+            end
 
-        local button = Instance.new("TextButton", modal)
-        button.Size = UDim2.new(0.5, 0, 0.3, 0)
-        button.Position = UDim2.new(0.25, 0, 0.6, 0)
-        button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-        button.Text = buttonText
+            header.InputBegan:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    dragStart = input.Position
+                    startPos = frame.Position
+                    input.Changed:Connect(function()
+                        if input.UserInputState == Enum.UserInputState.End then
+                            game:GetService("UserInputService").InputChanged:Disconnect(update)
+                        end
+                    end)
+                    game:GetService("UserInputService").InputChanged:Connect(update)
+                end
+            end)
+        end
+    end
+
+    -- Add button
+    function window:AddButton(text, callback, settings)
+        local button = Instance.new("TextButton")
+        button.Size = UDim2.new(0, settings.size.X, 0, settings.size.Y)
+        button.Position = UDim2.new(0, 50, 0, 70)
+        button.BackgroundColor3 = settings.color
+        button.Text = text
         button.TextColor3 = Color3.fromRGB(255, 255, 255)
-        button.Font = Enum.Font.Gotham
-        button.TextScaled = true
-        button.BorderSizePixel = 0
-        button.MouseButton1Click:Connect(function()
-            modal:Destroy()
-            callback()
+        button.TextSize = 18
+        button.Font = Enum.Font.SourceSans
+        button.BorderRadius = UDim.new(0, settings.borderRadius)
+        button.Parent = frame
+
+        -- Hover effect
+        button.MouseEnter:Connect(function()
+            button.BackgroundColor3 = settings.hoverColor
+        end)
+
+        button.MouseLeave:Connect(function()
+            button.BackgroundColor3 = settings.color
+        end)
+
+        button.MouseButton1Click:Connect(callback)
+    end
+
+    -- Add toggle
+    function window:AddToggle(text, default, callback, settings)
+        local toggleFrame = Instance.new("Frame")
+        toggleFrame.Size = UDim2.new(0, settings.size.X, 0, settings.size.Y)
+        toggleFrame.Position = UDim2.new(0, 50, 0, 120)
+        toggleFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+        toggleFrame.BorderSizePixel = 0
+        toggleFrame.Parent = frame
+
+        local toggleLabel = Instance.new("TextLabel")
+        toggleLabel.Size = UDim2.new(0, settings.size.X, 0, 20)
+        toggleLabel.Position = UDim2.new(0, 0, 0, 0)
+        toggleLabel.Text = text
+        toggleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+        toggleLabel.TextSize = settings.textSize
+        toggleLabel.Font = Enum.Font.SourceSans
+        toggleLabel.Parent = toggleFrame
+
+        local toggleButton = Instance.new("TextButton")
+        toggleButton.Size = UDim2.new(0, 60, 0, 30)
+        toggleButton.Position = UDim2.new(1, -70, 0, 0)
+        toggleButton.BackgroundColor3 = Color3.fromRGB(70, 255, 70)
+        toggleButton.Text = default and "ON" or "OFF"
+        toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        toggleButton.TextSize = 16
+        toggleButton.Font = Enum.Font.SourceSans
+        toggleButton.BorderRadius = UDim.new(0, 8)
+        toggleButton.Parent = toggleFrame
+
+        toggleButton.MouseButton1Click:Connect(function()
+            default = not default
+            toggleButton.Text = default and "ON" or "OFF"
+            callback(default)
         end)
     end
 
-    return NoxUI
+    -- Add slider
+    function window:AddSlider(text, min, max, default, callback, settings)
+        local sliderFrame = Instance.new("Frame")
+        sliderFrame.Size = UDim2.new(0, settings.size.X, 0, settings.size.Y)
+        sliderFrame.Position = UDim2.new(0, 50, 0, 170)
+        sliderFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+        sliderFrame.BorderSizePixel = 0
+        sliderFrame.Parent = frame
+
+        local sliderLabel = Instance.new("TextLabel")
+        sliderLabel.Size = UDim2.new(0, settings.size.X, 0, 20)
+        sliderLabel.Position = UDim2.new(0, 0, 0, 0)
+        sliderLabel.Text = text
+        sliderLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+        sliderLabel.TextSize = 16
+        sliderLabel.Font = Enum.Font.SourceSans
+        sliderLabel.Parent = sliderFrame
+
+        local slider = Instance.new("TextBox")
+        slider.Size = UDim2.new(0, settings.size.X, 0, 20)
+        slider.Position = UDim2.new(0, 0, 0, 20)
+        slider.BackgroundColor3 = settings.sliderColor
+        slider.Text = tostring(default)
+        slider.TextColor3 = Color3.fromRGB(255, 255, 255)
+        slider.TextSize = 14
+        slider.Font = Enum.Font.SourceSans
+        slider.BorderSizePixel = 0
+        slider.Parent = sliderFrame
+
+        local sliderButton = Instance.new("TextButton")
+        sliderButton.Size = UDim2.new(0, settings.size.X, 0, 5)
+        sliderButton.Position = UDim2.new(0, 0, 0, 40)
+        sliderButton.BackgroundColor3 = settings.color
+        sliderButton.Text = ""
+        sliderButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        sliderButton.BorderSizePixel = 0
+        sliderButton.Parent = sliderFrame
+
+        sliderButton.MouseDragChanged:Connect(function(input)
+            local value = math.clamp((input.Position.X - sliderButton.Position.X.Offset) / sliderButton.Size.X.Offset, 0, 1)
+            local newValue = math.floor(value * (max - min) + min)
+            slider.Text = tostring(newValue)
+            callback(newValue)
+        end)
+    end
+
+    return window
 end
 
-return NoxUI
+return UILib
