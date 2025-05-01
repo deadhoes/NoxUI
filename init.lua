@@ -112,11 +112,11 @@ function NoxUI:CreateWindow(config)
         end)
 
         if not CurrentTab then
-            tabButton:FireMouseButton1Click()
+            page.Visible = true
+            CurrentTab = page
         end
 
-        local function addComponent(name, instance)
-            instance.Name = name
+        local function addComponent(instance)
             instance.Parent = page
         end
 
@@ -130,7 +130,7 @@ function NoxUI:CreateWindow(config)
                 btn.Font = Enum.Font.Gotham
                 btn.TextSize = 14
                 btn.MouseButton1Click:Connect(callback)
-                addComponent(text, btn)
+                addComponent(btn)
             end,
 
             AddToggle = function(text, callback)
@@ -148,7 +148,7 @@ function NoxUI:CreateWindow(config)
                     toggle.Text = text .. ": " .. (state and "ON" or "OFF")
                     callback(state)
                 end)
-                addComponent(text, toggle)
+                addComponent(toggle)
             end,
 
             AddTextBox = function(placeholder, callback)
@@ -163,7 +163,7 @@ function NoxUI:CreateWindow(config)
                 box.FocusLost:Connect(function()
                     callback(box.Text)
                 end)
-                addComponent(placeholder, box)
+                addComponent(box)
             end,
 
             AddSlider = function(label, min, max, default, callback)
@@ -185,7 +185,7 @@ function NoxUI:CreateWindow(config)
                     slider.Text = label .. ": " .. tostring(value)
                     callback(value)
                 end)
-                addComponent(label, sliderFrame)
+                addComponent(sliderFrame)
             end,
 
             AddDropdown = function(label, options, callback)
@@ -223,7 +223,7 @@ function NoxUI:CreateWindow(config)
                     end
                 end)
 
-                addComponent(label, dropdown)
+                addComponent(dropdown)
             end
         }
     end
