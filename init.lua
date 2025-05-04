@@ -1,265 +1,79 @@
--- Roblox UI Library
 local UILib = {}
 
--- Services
-local RunService = game:GetService("RunService")
-
--- Main ScreenGui
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "UILibrary_ScreenGui"
-ScreenGui.ResetOnSpawn = false
-ScreenGui.Parent = game:GetService("StarterGui") -- or game.Players.LocalPlayer:WaitForChild("PlayerGui") if local
-
--- Utility function to create UI instances
-local function createInstance(class, properties, parent)
-    local inst = Instance.new(class)
-    for prop, value in pairs(properties) do
-        inst[prop] = value
-    end
-    if parent then
-        inst.Parent = parent
-    end
-    return inst
+-- Ana GUI oluşturucu
+function UILib:CreateScreen(name)
+    local screen = Instance.new("ScreenGui")
+    screen.Name = name or "ModernUI"
+    screen.ResetOnSpawn = false
+    screen.IgnoreGuiInset = true
+    screen.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+    return screen
 end
 
--- Create a new window
-function UILib.CreateWindow(title, position, size)
-    local window = createInstance("Frame", {
-        Size = size or UDim2.new(0, 350, 0, 250),
-        Position = position or UDim2.new(0.5, -175, 0.5, -125),
-        BackgroundColor3 = Color3.fromRGB(30, 30, 30),
-        BorderSizePixel = 0,
-        CornerRadius = UDim.new(0, 10),
-        ClipsDescendants = true,
-    }, ScreenGui)
+-- Modern ve şık frame oluşturucu
+function UILib:CreateFrame(parent, props)
+    local frame = Instance.new("Frame")
+    frame.Size = props.Size or UDim2.new(0, 400, 0, 250)
+    frame.Position = props.Position or UDim2.new(0.5, -200, 0.5, -125)
+    frame.BackgroundColor3 = props.Color or Color3.fromRGB(50, 50, 50)
+    frame.BackgroundTransparency = 0.2
+    frame.BorderSizePixel = 0
+    frame.ClipsDescendants = true
+    frame.Parent = parent
 
-    -- Title Bar
-    local titleBar = createInstance("Frame", {
-        Size = UDim2.new(1, 0, 0, 30),
-        BackgroundColor3 = Color3.fromRGB(40, 40, 40),
-        BorderSizePixel = 0,
-    }, window)
+    -- Gölge efekti ekleme
+    local shadow = Instance.new("ImageLabel")
+    shadow.Size = UDim2.new(1, 10, 1, 10)
+    shadow.Position = UDim2.new(0, -5, 0, -5)
+    shadow.BackgroundTransparency = 1
+    shadow.Image = "rbxassetid://2310179834"  -- Varsayılan bir gölge resmi
+    shadow.Parent = frame
 
-    local titleLabel = createInstance("TextLabel", {
-        Text = title or "Window",
-        Size = UDim2.new(1, -10, 1, 0),
-        Position = UDim2.new(0, 5, 0, 0),
-        BackgroundTransparency = 1,
-        TextColor3 = Color3.new(1, 1, 1),
-        Font = Enum.Font.SourceSansBold,
-        TextSize = 18,
-        VerticalAlignment = Enum.VerticalAlignment.Center,
-        TextXAlignment = Enum.TextXAlignment.Left,
-    }, titleBar)
-
-    -- Make the window draggable
-    local dragging = false
-    local dragStart, startPos
-
-    titleBar.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = true
-            dragStart = input.Position
-            startPos = window.Position
-        end
-    end)
-
-    titleBar.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = false
-        end
-    end)
-
-    RunService.InputChanged:Connect(function(input)
-        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-            local delta = input.Position - dragStart
-            window.Position = UDim2.new(
-                startPos.X.Scale,
-                startPos.X.Offset + delta.X,
-                startPos.Y.Scale,
-                startPos.Y.Offset + delta.Y
-            )
-        end
-    end)
-
-    -- Content Container
-    local content = createInstance("Frame", {
-        Size = UDim2.new(1, 0, 1, -30),
-        Position = UDim2.new(0, 0, 0, 30),
-        BackgroundTransparency = 1,
-    }, window)
-
-    -- Store for future additions
-    window._content = content
-
-    return {
-        Window = window,
-        Content = content,
-    }
+    return frame
 end
 
--- Add a button
-function UILib.CreateButton(parent, text, callback)
-    local button = createInstance("TextButton", {
-        Text = text or "Button",
-        Size = UDim2.new(1, -10, 0, 30),
-        BackgroundColor3 = Color3.fromRGB(50, 50, 50),
-        TextColor3 = Color3.new(1, 1, 1),
-        Font = Enum.Font.SourceSans,
-        TextSize = 16,
-        BorderSizePixel = 0,
-        Position = UDim2.new(0, 5, 0, 5),
-        AutomaticSize = Enum.AutomaticSize.Y,
-        CornerRadius = UDim.new(0, 5),
-        LayoutOrder = 0,
-    }, parent)
-
-    button.MouseButton1Click:Connect(callback)
-    return button
-end
-
--- Add a label
-function UILib.CreateLabel(parent, text)
-    local label = createInstance("TextLabel", {
-        Text = text or "Label",
-        Size = UDim2.new(1, -10, 0, 20),
-        BackgroundTransparency = 1,
-        TextColor3 = Color3.new(1, 1, 1),
-        Font = Enum.Font.SourceSans,
-        TextSize = 14,
-        Position = UDim2.new(0, 5, 0, 5),
-        TextXAlignment = Enum.TextXAlignment.Left,
-        AutomaticSize = Enum.AutomaticSize.Y,
-    }, parent)
+-- Modern label oluşturucu
+function UILib:CreateLabel(parent, text, props)
+    local label = Instance.new("TextLabel")
+    label.Text = text or "Label"
+    label.Size = props.Size or UDim2.new(1, 0, 0, 40)
+    label.Position = props.Position or UDim2.new(0, 0, 0, 0)
+    label.BackgroundTransparency = 1
+    label.TextColor3 = props.Color or Color3.fromRGB(255, 255, 255)
+    label.Font = Enum.Font.GothamSemibold
+    label.TextScaled = true
+    label.TextStrokeTransparency = 0.8
+    label.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+    label.Parent = parent
     return label
 end
 
--- Add a divider (a simple horizontal line)
-function UILib.CreateDivider(parent, thickness, color)
-    local divider = createInstance("Frame", {
-        Size = UDim2.new(1, 0, 0, thickness or 2),
-        BackgroundColor3 = color or Color3.fromRGB(80, 80, 80),
-        BorderSizePixel = 0,
-        Position = UDim2.new(0, 0, 0, 0),
-    }, parent)
-    return divider
-end
-
--- Add a slider
-function UILib.CreateSlider(parent, min, max, default, callback)
-    local container = createInstance("Frame", {
-        Size = UDim2.new(1, -10, 0, 50),
-        BackgroundTransparency = 1,
-        LayoutOrder = 0,
-    }, parent)
-
-    local label = UILib.CreateLabel(container, "Value: " .. tostring(default))
-    label.Position = UDim2.new(0, 5, 0, 0)
-
-    local sliderTrack = createInstance("Frame", {
-        Size = UDim2.new(1, -10, 0, 20),
-        Position = UDim2.new(0, 5, 0, 25),
-        BackgroundColor3 = Color3.fromRGB(60, 60, 60),
-        BorderSizePixel = 0,
-        CornerRadius = UDim.new(0, 5),
-    }, container)
-
-    local fill = createInstance("Frame", {
-        Size = UDim2.new(0, 0, 1, 0),
-        BackgroundColor3 = Color3.fromRGB(0, 170, 255),
-        BorderSizePixel = 0,
-        CornerRadius = UDim.new(0, 5),
-        AnchorPoint = Vector2.new(0, 0.5),
-        Position = UDim2.new(0, 0, 0.5, 0),
-    }, sliderTrack)
-
-    local knob = createInstance("Frame", {
-        Size = UDim2.new(0, 10, 0, 20),
-        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-        BorderSizePixel = 0,
-        CornerRadius = UDim.new(0, 3),
-        Position = UDim2.new(0, 0, 0.5, 0),
-        AnchorPoint = Vector2.new(0.5, 0.5),
-    }, sliderTrack)
-
-    local dragging = false
-
-    local function updateSlider(mouseX)
-        local sliderStart = sliderTrack.AbsolutePosition.X
-        local sliderWidth = sliderTrack.AbsoluteSize.X
-        local percent = math.clamp((mouseX - sliderStart) / sliderWidth, 0, 1)
-        fill.Size = UDim2.new(percent, 0, 1, 0)
-        knob.Position = UDim2.new(percent, 0, 0.5, 0)
-        local value = min + percent * (max - min)
-        if callback then
-            callback(value)
-        end
-        label.Text = "Value: " .. string.format("%.2f", value)
-    end
-
-    knob.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = true
-        end
+-- Modern buton oluşturucu
+function UILib:CreateButton(parent, text, onClick, props)
+    local button = Instance.new("TextButton")
+    button.Text = text or "Button"
+    button.Size = props.Size or UDim2.new(0, 200, 0, 50)
+    button.Position = props.Position or UDim2.new(0.5, -100, 0.5, -25)
+    button.BackgroundColor3 = props.Color or Color3.fromRGB(72, 157, 255)
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.Font = Enum.Font.GothamBold
+    button.TextScaled = true
+    button.BorderSizePixel = 0
+    button.Parent = parent
+    
+    -- Hover efekti
+    button.MouseEnter:Connect(function()
+        button.BackgroundColor3 = Color3.fromRGB(100, 200, 255)
     end)
 
-    RunService.InputChanged:Connect(function(input)
-        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-            updateSlider(input.Position.X)
-        end
+    button.MouseLeave:Connect(function()
+        button.BackgroundColor3 = props.Color or Color3.fromRGB(72, 157, 255)
     end)
 
-    knob.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = false
-        end
-    end)
+    -- Butona tıklama işlevi
+    button.MouseButton1Click:Connect(onClick)
 
-    -- Initialize slider to default value
-    local initialPercent = (default - min) / (max - min)
-    local sliderPosX = sliderTrack.AbsolutePosition.X + initialPercent * sliderTrack.AbsoluteSize.X
-    updateSlider(sliderPosX)
-
-    return {
-        SetValue = function(self, value)
-            value = math.clamp(value, min, max)
-            local percent = (value - min) / (max - min)
-            fill.Size = UDim2.new(percent, 0, 1, 0)
-            knob.Position = UDim2.new(percent, 0, 0.5, 0)
-            if callback then
-                callback(value)
-            end
-        end,
-        GetValue = function()
-            local sizeX = fill.Size.X.Scale
-            return min + sizeX * (max - min)
-        end,
-        Container = container,
-    }
+    return button
 end
 
--- Add a textbox
-function UILib.CreateTextBox(parent, placeholderText, callback)
-    local textbox = createInstance("TextBox", {
-        Text = "",
-        PlaceholderText = placeholderText or "Enter text...",
-        Size = UDim2.new(1, -10, 0, 30),
-        BackgroundColor3 = Color3.fromRGB(50, 50, 50),
-        TextColor3 = Color3.new(1, 1, 1),
-        Font = Enum.Font.SourceSans,
-        TextSize = 14,
-        BorderSizePixel = 0,
-        Position = UDim2.new(0, 5, 0, 5),
-        CornerRadius = UDim.new(0, 5),
-    }, parent)
-
-    if callback then
-        textbox.FocusLost:Connect(function()
-            callback(textbox.Text)
-        end)
-    end
-    return textbox
-end
-
--- Make the UI library return itself
 return UILib
