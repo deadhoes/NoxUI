@@ -157,45 +157,35 @@ local function MPEIXNJ_fake_script() -- TextButton.LocalScript
 	
 	
 end
-coroutine.wrap(MPEIXNJ_fake_script)()
-local function ODDKZ_fake_script() -- AvatarImage.LocalScript 
+local function IPAHEO_fake_script() -- AvatarImage.LocalScript 
 	local script = Instance.new('LocalScript', AvatarImage)
 
 	local Players = game:GetService("Players")
 	local player = Players.LocalPlayer
 	
-	-- Get the ImageLabel
+	-- ImageLabel'e ulaş
 	local imageLabel = script.Parent:WaitForChild("AvatarImageLabel")
 	
-	-- Set default image in case loading fails
-	imageLabel.Image = "rbxasset://textures/ui/ImagePlaceholder.png"
-	
-	-- Function to load and set avatar image
+	-- Avatar görselini al
 	local function setAvatarImage()
 		local userId = player.UserId
-		local thumbType = Enum.ThumbnailType.HeadShot
+		local thumbType = Enum.ThumbnailType.HeadShot -- Tam vücut için: Enum.ThumbnailType.AvatarBust
 		local thumbSize = Enum.ThumbnailSize.Size420x420
 	
-		-- Try to get the thumbnail
+		-- Görseli al
 		local success, content, isReady = pcall(function()
 			return Players:GetUserThumbnailAsync(userId, thumbType, thumbSize)
 		end)
 	
-		-- Set the image if successful
-		if success and content and isReady then
+		if success and isReady then
 			imageLabel.Image = content
 		else
-			warn("Failed to load avatar image for user", userId)
-			-- Optionally set a fallback image
-			imageLabel.Image = "rbxasset://textures/ui/ImagePlaceholder.png"
+			warn("Avatar görseli alınamadı")
 		end
 	end
 	
-	-- Connect to player changes
-	player:GetPropertyChangedSignal("UserId"):Connect(setAvatarImage)
-	
-	-- Initial load
 	setAvatarImage()
+	
 end
 coroutine.wrap(ODDKZ_fake_script)()
 local function CXFU_fake_script() -- Title.LocalScript 
