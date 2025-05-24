@@ -3,7 +3,7 @@
 
 -- Instances:
 
-local ScreenGui = Instance.new("ScreenGui")
+local PrismUI = Instance.new("ScreenGui")
 local Menu = Instance.new("Frame")
 local UICorner = Instance.new("UICorner")
 local Bar = Instance.new("Folder")
@@ -17,14 +17,35 @@ local AvatarImage = Instance.new("ImageLabel")
 local UICorner_2 = Instance.new("UICorner")
 local Title = Instance.new("TextLabel")
 local Subtitle = Instance.new("TextLabel")
+local shadowHolder = Instance.new("Frame")
+local umbraShadow = Instance.new("ImageLabel")
+local penumbraShadow = Instance.new("ImageLabel")
+local ambientShadow = Instance.new("ImageLabel")
+local shadowHolder_2 = Instance.new("Frame")
+local umbraShadow_2 = Instance.new("ImageLabel")
+local penumbraShadow_2 = Instance.new("ImageLabel")
+local ambientShadow_2 = Instance.new("ImageLabel")
+local shadowHolder_3 = Instance.new("Frame")
+local umbraShadow_3 = Instance.new("ImageLabel")
+local penumbraShadow_3 = Instance.new("ImageLabel")
+local ambientShadow_3 = Instance.new("ImageLabel")
+local Serverhop = Instance.new("Frame")
+local UICorner_3 = Instance.new("UICorner")
+local Interact = Instance.new("TextButton")
+local Title_2 = Instance.new("TextLabel")
+local Rejoin = Instance.new("Frame")
+local UICorner_4 = Instance.new("UICorner")
+local Interact_2 = Instance.new("TextButton")
+local Title_3 = Instance.new("TextLabel")
 
 --Properties:
 
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+PrismUI.Name = "PrismUI"
+PrismUI.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+PrismUI.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 Menu.Name = "Menu"
-Menu.Parent = ScreenGui
+Menu.Parent = PrismUI
 Menu.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 Menu.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Menu.BorderSizePixel = 0
@@ -137,9 +158,232 @@ Subtitle.TextTransparency = 0.300
 Subtitle.TextWrapped = true
 Subtitle.TextXAlignment = Enum.TextXAlignment.Left
 
+shadowHolder.Name = "shadowHolder"
+shadowHolder.Parent = Menu
+shadowHolder.BackgroundTransparency = 1.000
+shadowHolder.Size = UDim2.new(1, 0, 1, 0)
+shadowHolder.ZIndex = 0
+
+umbraShadow.Name = "umbraShadow"
+umbraShadow.Parent = shadowHolder
+umbraShadow.AnchorPoint = Vector2.new(0.5, 0.5)
+umbraShadow.BackgroundTransparency = 1.000
+umbraShadow.Position = UDim2.new(0.5, 0, 0.5, 2)
+umbraShadow.Size = UDim2.new(1, 4, 1, 4)
+umbraShadow.ZIndex = 0
+umbraShadow.Image = "rbxassetid://1316045217"
+umbraShadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
+umbraShadow.ImageTransparency = 0.860
+umbraShadow.ScaleType = Enum.ScaleType.Slice
+umbraShadow.SliceCenter = Rect.new(10, 10, 118, 118)
+
+penumbraShadow.Name = "penumbraShadow"
+penumbraShadow.Parent = shadowHolder
+penumbraShadow.AnchorPoint = Vector2.new(0.5, 0.5)
+penumbraShadow.BackgroundTransparency = 1.000
+penumbraShadow.Position = UDim2.new(0.5, 0, 0.5, 2)
+penumbraShadow.Size = UDim2.new(1, 4, 1, 4)
+penumbraShadow.ZIndex = 0
+penumbraShadow.Image = "rbxassetid://1316045217"
+penumbraShadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
+penumbraShadow.ImageTransparency = 0.880
+penumbraShadow.ScaleType = Enum.ScaleType.Slice
+penumbraShadow.SliceCenter = Rect.new(10, 10, 118, 118)
+
+ambientShadow.Name = "ambientShadow"
+ambientShadow.Parent = shadowHolder
+ambientShadow.AnchorPoint = Vector2.new(0.5, 0.5)
+ambientShadow.BackgroundTransparency = 1.000
+ambientShadow.Position = UDim2.new(0.5, 0, 0.5, 2)
+ambientShadow.Size = UDim2.new(1, 4, 1, 4)
+ambientShadow.ZIndex = 0
+ambientShadow.Image = "rbxassetid://1316045217"
+ambientShadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
+ambientShadow.ImageTransparency = 0.880
+ambientShadow.ScaleType = Enum.ScaleType.Slice
+ambientShadow.SliceCenter = Rect.new(10, 10, 118, 118)
+
+shadowHolder_2.Name = "shadowHolder"
+shadowHolder_2.Parent = Menu
+shadowHolder_2.BackgroundTransparency = 1.000
+shadowHolder_2.Size = UDim2.new(1, 0, 1, 0)
+shadowHolder_2.ZIndex = 0
+
+umbraShadow_2.Name = "umbraShadow"
+umbraShadow_2.Parent = shadowHolder_2
+umbraShadow_2.AnchorPoint = Vector2.new(0.5, 0.5)
+umbraShadow_2.BackgroundTransparency = 1.000
+umbraShadow_2.Position = UDim2.new(0.5, 0, 0.5, 0)
+umbraShadow_2.Size = UDim2.new(1, 2, 1, 2)
+umbraShadow_2.ZIndex = 0
+umbraShadow_2.Image = "rbxassetid://1316045217"
+umbraShadow_2.ImageColor3 = Color3.fromRGB(0, 0, 0)
+umbraShadow_2.ImageTransparency = 0.860
+umbraShadow_2.ScaleType = Enum.ScaleType.Slice
+umbraShadow_2.SliceCenter = Rect.new(10, 10, 118, 118)
+
+penumbraShadow_2.Name = "penumbraShadow"
+penumbraShadow_2.Parent = shadowHolder_2
+penumbraShadow_2.AnchorPoint = Vector2.new(0.5, 0.5)
+penumbraShadow_2.BackgroundTransparency = 1.000
+penumbraShadow_2.Position = UDim2.new(0.5, 0, 0.5, 0)
+penumbraShadow_2.Size = UDim2.new(1, 2, 1, 2)
+penumbraShadow_2.ZIndex = 0
+penumbraShadow_2.Image = "rbxassetid://1316045217"
+penumbraShadow_2.ImageColor3 = Color3.fromRGB(0, 0, 0)
+penumbraShadow_2.ImageTransparency = 0.880
+penumbraShadow_2.ScaleType = Enum.ScaleType.Slice
+penumbraShadow_2.SliceCenter = Rect.new(10, 10, 118, 118)
+
+ambientShadow_2.Name = "ambientShadow"
+ambientShadow_2.Parent = shadowHolder_2
+ambientShadow_2.AnchorPoint = Vector2.new(0.5, 0.5)
+ambientShadow_2.BackgroundTransparency = 1.000
+ambientShadow_2.Position = UDim2.new(0.5, 0, 0.5, 0)
+ambientShadow_2.Size = UDim2.new(1, 2, 1, 2)
+ambientShadow_2.ZIndex = 0
+ambientShadow_2.Image = "rbxassetid://1316045217"
+ambientShadow_2.ImageColor3 = Color3.fromRGB(0, 0, 0)
+ambientShadow_2.ImageTransparency = 0.880
+ambientShadow_2.ScaleType = Enum.ScaleType.Slice
+ambientShadow_2.SliceCenter = Rect.new(10, 10, 118, 118)
+
+shadowHolder_3.Name = "shadowHolder"
+shadowHolder_3.Parent = Menu
+shadowHolder_3.BackgroundTransparency = 1.000
+shadowHolder_3.Size = UDim2.new(1, 0, 1, 0)
+shadowHolder_3.ZIndex = 0
+
+umbraShadow_3.Name = "umbraShadow"
+umbraShadow_3.Parent = shadowHolder_3
+umbraShadow_3.AnchorPoint = Vector2.new(0.5, 0.5)
+umbraShadow_3.BackgroundTransparency = 1.000
+umbraShadow_3.Position = UDim2.new(0.5, 0, 0.5, 0)
+umbraShadow_3.Size = UDim2.new(1, 2, 1, 2)
+umbraShadow_3.ZIndex = 0
+umbraShadow_3.Image = "rbxassetid://1316045217"
+umbraShadow_3.ImageColor3 = Color3.fromRGB(0, 0, 0)
+umbraShadow_3.ImageTransparency = 0.860
+umbraShadow_3.ScaleType = Enum.ScaleType.Slice
+umbraShadow_3.SliceCenter = Rect.new(10, 10, 118, 118)
+
+penumbraShadow_3.Name = "penumbraShadow"
+penumbraShadow_3.Parent = shadowHolder_3
+penumbraShadow_3.AnchorPoint = Vector2.new(0.5, 0.5)
+penumbraShadow_3.BackgroundTransparency = 1.000
+penumbraShadow_3.Position = UDim2.new(0.5, 0, 0.5, 0)
+penumbraShadow_3.Size = UDim2.new(1, 2, 1, 2)
+penumbraShadow_3.ZIndex = 0
+penumbraShadow_3.Image = "rbxassetid://1316045217"
+penumbraShadow_3.ImageColor3 = Color3.fromRGB(0, 0, 0)
+penumbraShadow_3.ImageTransparency = 0.880
+penumbraShadow_3.ScaleType = Enum.ScaleType.Slice
+penumbraShadow_3.SliceCenter = Rect.new(10, 10, 118, 118)
+
+ambientShadow_3.Name = "ambientShadow"
+ambientShadow_3.Parent = shadowHolder_3
+ambientShadow_3.AnchorPoint = Vector2.new(0.5, 0.5)
+ambientShadow_3.BackgroundTransparency = 1.000
+ambientShadow_3.Position = UDim2.new(0.501331568, 0, 0.497601926, 0)
+ambientShadow_3.Size = UDim2.new(1, 2, 1, 2)
+ambientShadow_3.ZIndex = 0
+ambientShadow_3.Image = "rbxassetid://1316045217"
+ambientShadow_3.ImageColor3 = Color3.fromRGB(0, 0, 0)
+ambientShadow_3.ImageTransparency = 0.880
+ambientShadow_3.ScaleType = Enum.ScaleType.Slice
+ambientShadow_3.SliceCenter = Rect.new(10, 10, 118, 118)
+
+Serverhop.Name = "Serverhop"
+Serverhop.Parent = Menu
+Serverhop.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+Serverhop.BorderColor3 = Color3.fromRGB(27, 42, 53)
+Serverhop.BorderSizePixel = 0
+Serverhop.Position = UDim2.new(0.0337913707, 0, 0.318345338, 0)
+Serverhop.Size = UDim2.new(0, 118, 0, 35)
+
+UICorner_3.CornerRadius = UDim.new(0, 7)
+UICorner_3.Parent = Serverhop
+
+Interact.Name = "Interact"
+Interact.Parent = Serverhop
+Interact.AnchorPoint = Vector2.new(0.5, 0.5)
+Interact.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Interact.BackgroundTransparency = 1.000
+Interact.BorderColor3 = Color3.fromRGB(27, 42, 53)
+Interact.BorderSizePixel = 0
+Interact.Position = UDim2.new(0.5, 0, 0.5, 0)
+Interact.Size = UDim2.new(1, 0, 1, 0)
+Interact.ZIndex = 10
+Interact.Font = Enum.Font.SourceSans
+Interact.TextColor3 = Color3.fromRGB(0, 0, 0)
+Interact.TextSize = 14.000
+Interact.TextTransparency = 1.000
+
+Title_2.Name = "Title"
+Title_2.Parent = Serverhop
+Title_2.AnchorPoint = Vector2.new(0.5, 0.5)
+Title_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Title_2.BackgroundTransparency = 1.000
+Title_2.BorderColor3 = Color3.fromRGB(27, 42, 53)
+Title_2.BorderSizePixel = 0
+Title_2.Position = UDim2.new(0.5, 0, 0.5, 0)
+Title_2.Size = UDim2.new(0.899999976, 0, 0, 14)
+Title_2.ZIndex = 9
+Title_2.Font = Enum.Font.GothamMedium
+Title_2.Text = "Serverhop"
+Title_2.TextColor3 = Color3.fromRGB(240, 240, 240)
+Title_2.TextScaled = true
+Title_2.TextSize = 14.000
+Title_2.TextTransparency = 0.500
+Title_2.TextWrapped = true
+
+Rejoin.Name = "Rejoin"
+Rejoin.Parent = Menu
+Rejoin.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+Rejoin.BorderColor3 = Color3.fromRGB(27, 42, 53)
+Rejoin.BorderSizePixel = 0
+Rejoin.Position = UDim2.new(0.21879372, 0, 0.318345338, 0)
+Rejoin.Size = UDim2.new(0, 84, 0, 35)
+
+UICorner_4.CornerRadius = UDim.new(0, 7)
+UICorner_4.Parent = Rejoin
+
+Interact_2.Name = "Interact"
+Interact_2.Parent = Rejoin
+Interact_2.AnchorPoint = Vector2.new(0.5, 0.5)
+Interact_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Interact_2.BackgroundTransparency = 1.000
+Interact_2.BorderColor3 = Color3.fromRGB(27, 42, 53)
+Interact_2.BorderSizePixel = 0
+Interact_2.Position = UDim2.new(0.5, 0, 0.5, 0)
+Interact_2.Size = UDim2.new(1, 0, 1, 0)
+Interact_2.ZIndex = 10
+Interact_2.Font = Enum.Font.SourceSans
+Interact_2.TextColor3 = Color3.fromRGB(0, 0, 0)
+Interact_2.TextSize = 14.000
+Interact_2.TextTransparency = 1.000
+
+Title_3.Name = "Title"
+Title_3.Parent = Rejoin
+Title_3.AnchorPoint = Vector2.new(0.5, 0.5)
+Title_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Title_3.BackgroundTransparency = 1.000
+Title_3.BorderColor3 = Color3.fromRGB(27, 42, 53)
+Title_3.BorderSizePixel = 0
+Title_3.Position = UDim2.new(0.523809671, 0, 0.5, 0)
+Title_3.Size = UDim2.new(0.899999976, 0, 0, 14)
+Title_3.ZIndex = 9
+Title_3.Font = Enum.Font.GothamMedium
+Title_3.Text = "Rejoin"
+Title_3.TextColor3 = Color3.fromRGB(240, 240, 240)
+Title_3.TextScaled = true
+Title_3.TextSize = 14.000
+Title_3.TextTransparency = 0.500
+Title_3.TextWrapped = true
+
 -- Scripts:
 
-local function MPEIXNJ_fake_script() -- TextButton.LocalScript 
+local function JLTO_fake_script() -- TextButton.LocalScript 
 	local script = Instance.new('LocalScript', TextButton)
 
 	local closeButton = script.Parent
@@ -157,38 +401,29 @@ local function MPEIXNJ_fake_script() -- TextButton.LocalScript
 	
 	
 end
-local function IPAHEO_fake_script() -- AvatarImage.LocalScript 
+coroutine.wrap(JLTO_fake_script)()
+local function NUNMYKJ_fake_script() -- AvatarImage.LocalScript 
 	local script = Instance.new('LocalScript', AvatarImage)
 
 	local Players = game:GetService("Players")
 	local player = Players.LocalPlayer
 	
-	-- ImageLabel'e ulaş
-	local imageLabel = script.Parent:WaitForChild("AvatarImageLabel")
+	local PLACEHOLDER_IMAGE = "rbxasset://textures/ui/ImagePlaceholder.png" -- Replace with your placeholder image
 	
-	-- Avatar görselini al
-	local function setAvatarImage()
-		local userId = player.UserId
-		local thumbType = Enum.ThumbnailType.HeadShot -- Tam vücut için: Enum.ThumbnailType.AvatarBust
-		local thumbSize = Enum.ThumbnailSize.Size420x420
+	local imageLabel = script.Parent
 	
-		-- Görseli al
-		local success, content, isReady = pcall(function()
-			return Players:GetUserThumbnailAsync(userId, thumbType, thumbSize)
-		end)
+	-- fetch the thumbnail
+	local userId = player.UserId
+	local thumbType = Enum.ThumbnailType.HeadShot
+	local thumbSize = Enum.ThumbnailSize.Size420x420
 	
-		if success and isReady then
-			imageLabel.Image = content
-		else
-			warn("Avatar görseli alınamadı")
-		end
-	end
+	local content, isReady = Players:GetUserThumbnailAsync(userId, thumbType, thumbSize)
 	
-	setAvatarImage()
+	imageLabel.Image = (isReady and content) or PLACEHOLDER_IMAGE
 	
 end
-coroutine.wrap(ODDKZ_fake_script)()
-local function CXFU_fake_script() -- Title.LocalScript 
+coroutine.wrap(NUNMYKJ_fake_script)()
+local function SVNSG_fake_script() -- Title.LocalScript 
 	local script = Instance.new('LocalScript', Title)
 
 	local Players = game:GetService("Players")
@@ -210,8 +445,8 @@ local function CXFU_fake_script() -- Title.LocalScript
 	
 	
 end
-coroutine.wrap(CXFU_fake_script)()
-local function VHIBYC_fake_script() -- Subtitle.LocalScript 
+coroutine.wrap(SVNSG_fake_script)()
+local function XHQS_fake_script() -- Subtitle.LocalScript 
 	local script = Instance.new('LocalScript', Subtitle)
 
 	local Players = game:GetService("Players")
@@ -234,8 +469,8 @@ local function VHIBYC_fake_script() -- Subtitle.LocalScript
 	
 	
 end
-coroutine.wrap(VHIBYC_fake_script)()
-local function TVATFO_fake_script() -- Menu.SmoothDrag 
+coroutine.wrap(XHQS_fake_script)()
+local function WSUN_fake_script() -- Menu.SmoothDrag 
 	local script = Instance.new('LocalScript', Menu)
 
 	-- Need help? Check me out on the devforum!
@@ -281,12 +516,132 @@ local function TVATFO_fake_script() -- Menu.SmoothDrag
 		end)
 	
 end
-coroutine.wrap(TVATFO_fake_script)()
-local function ZCHPKUV_fake_script() -- ScreenGui.LocalScript 
-	local script = Instance.new('LocalScript', ScreenGui)
+coroutine.wrap(WSUN_fake_script)()
+local function ZPTKACD_fake_script() -- Serverhop.LocalScript 
+	local script = Instance.new('LocalScript', Serverhop)
+
+	-- Bu LocalScript, TextButton içinde olmalı
+	local button = script.Parent
+	local tweenService = game:GetService("TweenService")
+	local info = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+	
+	local normalColor = Color3.fromRGB(35, 35, 35)
+	local hoverColor = Color3.fromRGB(93, 93, 93)
+	button.BackgroundColor3 = normalColor
+	
+	button.MouseEnter:Connect(function()
+		local tween = tweenService:Create(button, info, {BackgroundColor3 = hoverColor})
+		tween:Play()
+	end)
+	
+	button.MouseLeave:Connect(function()
+		local tween = tweenService:Create(button, info, {BackgroundColor3 = normalColor})
+		tween:Play()
+	end)
+	
+	-- Bu LocalScript, Frame içinde olmalı
+	local frame = script.Parent
+	local tweenService = game:GetService("TweenService")
+	local clickInfo = TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+	
+	-- Tıklanabilirlik ayarı
+	frame.Active = true
+	frame.Selectable = true
+	
+	-- Orijinal boyutu yedekle
+	local originalSize = frame.Size
+	
+	frame.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			-- Biraz büyüt
+			local growTween = tweenService:Create(frame, clickInfo, {Size = originalSize + UDim2.new(0, 5, 0, 5)})
+			growTween:Play()
+			growTween.Completed:Wait()
+			-- Tekrar küçült (orijinal boyuta dön)
+			local shrinkTween = tweenService:Create(frame, clickInfo, {Size = originalSize})
+			shrinkTween:Play()
+		end
+	end)
+	-- Bu LocalScript, Frame içinde olmalı
+	local frame = script.Parent
+	local tweenService = game:GetService("TweenService")
+	local clickInfo = TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+	
+	-- Tıklanabilirlik ayarı
+	frame.Active = true
+	frame.Selectable = true
+	
+	-- Orijinal boyutu yedekle
+	local originalSize = frame.Size
+	
+	frame.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			-- Biraz büyüt
+			local growTween = tweenService:Create(frame, clickInfo, {Size = originalSize + UDim2.new(0, 5, 0, 5)})
+			growTween:Play()
+			growTween.Completed:Wait()
+			-- Tekrar küçült (orijinal boyuta dön)
+			local shrinkTween = tweenService:Create(frame, clickInfo, {Size = originalSize})
+			shrinkTween:Play()
+		end
+	end)
+	
+	
+end
+coroutine.wrap(ZPTKACD_fake_script)()
+local function DAKQDH_fake_script() -- Rejoin.LocalScript 
+	local script = Instance.new('LocalScript', Rejoin)
+
+	-- Bu LocalScript, TextButton içinde olmalı
+	local button = script.Parent
+	local tweenService = game:GetService("TweenService")
+	local info = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+	
+	local normalColor = Color3.fromRGB(35, 35, 35)
+	local hoverColor = Color3.fromRGB(93, 93, 93)
+	button.BackgroundColor3 = normalColor
+	
+	button.MouseEnter:Connect(function()
+		local tween = tweenService:Create(button, info, {BackgroundColor3 = hoverColor})
+		tween:Play()
+	end)
+	
+	button.MouseLeave:Connect(function()
+		local tween = tweenService:Create(button, info, {BackgroundColor3 = normalColor})
+		tween:Play()
+	end)
+	
+	-- Bu LocalScript, Frame içinde olmalı
+	local frame = script.Parent
+	local tweenService = game:GetService("TweenService")
+	local clickInfo = TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+	
+	-- Tıklanabilirlik ayarı
+	frame.Active = true
+	frame.Selectable = true
+	
+	-- Orijinal boyutu yedekle
+	local originalSize = frame.Size
+	
+	frame.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			-- Biraz büyüt
+			local growTween = tweenService:Create(frame, clickInfo, {Size = originalSize + UDim2.new(0, 5, 0, 5)})
+			growTween:Play()
+			growTween.Completed:Wait()
+			-- Tekrar küçült (orijinal boyuta dön)
+			local shrinkTween = tweenService:Create(frame, clickInfo, {Size = originalSize})
+			shrinkTween:Play()
+		end
+	end)
+	
+end
+coroutine.wrap(DAKQDH_fake_script)()
+local function UWMUX_fake_script() -- PrismUI.LocalScript 
+	local script = Instance.new('LocalScript', PrismUI)
 
 	local player = game.Players.LocalPlayer
-	local scriptName = "a"
+	local scriptName = "Noctalis Test GUI"
 	
 	if not scriptName or scriptName:match("^%s*$") then
 		scriptName = "Unnamed Script"
@@ -302,4 +657,4 @@ local function ZCHPKUV_fake_script() -- ScreenGui.LocalScript
 	
 	
 end
-coroutine.wrap(ZCHPKUV_fake_script)()
+coroutine.wrap(UWMUX_fake_script)()
