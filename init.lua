@@ -20,7 +20,7 @@ local Subtitle = Instance.new("TextLabel")
 
 --Properties:
 
-ScreenGui.Parent = game.ReplicatedStorage
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 Menu.Name = "Menu"
@@ -139,7 +139,7 @@ Subtitle.TextXAlignment = Enum.TextXAlignment.Left
 
 -- Scripts:
 
-local function RTLFB_fake_script() -- TextButton.LocalScript 
+local function MPEIXNJ_fake_script() -- TextButton.LocalScript 
 	local script = Instance.new('LocalScript', TextButton)
 
 	local closeButton = script.Parent
@@ -157,8 +157,8 @@ local function RTLFB_fake_script() -- TextButton.LocalScript
 	
 	
 end
-coroutine.wrap(RTLFB_fake_script)()
-local function CMHJGP_fake_script() -- AvatarImage.LocalScript 
+coroutine.wrap(MPEIXNJ_fake_script)()
+local function ODDKZ_fake_script() -- AvatarImage.LocalScript 
 	local script = Instance.new('LocalScript', AvatarImage)
 
 	local Players = game:GetService("Players")
@@ -197,8 +197,8 @@ local function CMHJGP_fake_script() -- AvatarImage.LocalScript
 	-- Initial load
 	setAvatarImage()
 end
-coroutine.wrap(CMHJGP_fake_script)()
-local function XWISRH_fake_script() -- Title.LocalScript 
+coroutine.wrap(ODDKZ_fake_script)()
+local function CXFU_fake_script() -- Title.LocalScript 
 	local script = Instance.new('LocalScript', Title)
 
 	local Players = game:GetService("Players")
@@ -220,8 +220,8 @@ local function XWISRH_fake_script() -- Title.LocalScript
 	
 	
 end
-coroutine.wrap(XWISRH_fake_script)()
-local function CJZMOYH_fake_script() -- Subtitle.LocalScript 
+coroutine.wrap(CXFU_fake_script)()
+local function VHIBYC_fake_script() -- Subtitle.LocalScript 
 	local script = Instance.new('LocalScript', Subtitle)
 
 	local Players = game:GetService("Players")
@@ -244,8 +244,8 @@ local function CJZMOYH_fake_script() -- Subtitle.LocalScript
 	
 	
 end
-coroutine.wrap(CJZMOYH_fake_script)()
-local function VVRUO_fake_script() -- Menu.SmoothDrag 
+coroutine.wrap(VHIBYC_fake_script)()
+local function TVATFO_fake_script() -- Menu.SmoothDrag 
 	local script = Instance.new('LocalScript', Menu)
 
 	-- Need help? Check me out on the devforum!
@@ -291,8 +291,8 @@ local function VVRUO_fake_script() -- Menu.SmoothDrag
 		end)
 	
 end
-coroutine.wrap(VVRUO_fake_script)()
-local function ZABTHX_fake_script() -- ScreenGui.LocalScript 
+coroutine.wrap(TVATFO_fake_script)()
+local function ZCHPKUV_fake_script() -- ScreenGui.LocalScript 
 	local script = Instance.new('LocalScript', ScreenGui)
 
 	local player = game.Players.LocalPlayer
@@ -312,4 +312,4 @@ local function ZABTHX_fake_script() -- ScreenGui.LocalScript
 	
 	
 end
-coroutine.wrap(ZABTHX_fake_script)()
+coroutine.wrap(ZCHPKUV_fake_script)()
