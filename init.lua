@@ -1,75 +1,64 @@
-local MyUILib = {}
+local Library = {}
 
--- Tema (tema renkleri)
-MyUILib.Theme = {
-    Background = Color3.fromRGB(30,30,30),
-    Accent = Color3.fromRGB(0,170,255),
-    TextColor = Color3.fromRGB(255,255,255),
-    ToggleOn = Color3.fromRGB(0,200,120),
-    ToggleOff = Color3.fromRGB(150,150,150),
-}
+function Library:Window(name)
+    local screenGui = Instance.new("ScreenGui", game.Players.LocalPlayer:WaitForChild("PlayerGui"))
+    screenGui.Name = name
 
--- Ana pencere oluşturma
-function MyUILib:CreateWindow(title)
-    local ScreenGui = Instance.new("ScreenGui")
-    ScreenGui.Name = "MyUILibGui"
-    ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    local mainFrame = Instance.new("Frame", screenGui)
+    mainFrame.Size = UDim2.new(0, 400, 0, 300)
+    mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
+    mainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    mainFrame.Name = "MainFrame"
 
-    local Frame = Instance.new("Frame")
-    Frame.Size = UDim2.new(0, 600, 0, 400)
-    Frame.Position = UDim2.new(0.5, -300, 0.5, -200)
-    Frame.BackgroundColor3 = self.Theme.Background
-    Frame.Parent = ScreenGui
-    Frame.AnchorPoint = Vector2.new(0.5, 0.5)
-    Frame.ClipsDescendants = true
+    local WindowFunctions = {}
 
-    local TitleLabel = Instance.new("TextLabel")
-    TitleLabel.Text = title or "My UI"
-    TitleLabel.Size = UDim2.new(1, 0, 0, 50)
-    TitleLabel.BackgroundTransparency = 1
-    TitleLabel.TextColor3 = self.Theme.TextColor
-    TitleLabel.Font = Enum.Font.GothamBold
-    TitleLabel.TextSize = 24
-    TitleLabel.Parent = Frame
+    function WindowFunctions:Tab(tabName)
+        local tabFrame = Instance.new("Frame", mainFrame)
+        tabFrame.Size = UDim2.new(1, 0, 1, 0)
+        tabFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+        tabFrame.Name = tabName
 
-    -- Buraya tab sistemi, sectionlar, buttonlar eklenecek
-    
-    -- Basit tab sistemi için:
-    local tabs = {}
-    local function createTab(tabName)
-        local tabButton = Instance.new("TextButton")
-        tabButton.Text = tabName
-        tabButton.Size = UDim2.new(0, 100, 0, 40)
-        tabButton.Position = UDim2.new(#tabs * 0.16, 0, 0, 50)
-        tabButton.BackgroundColor3 = self.Theme.Accent
-        tabButton.TextColor3 = Color3.new(1,1,1)
-        tabButton.Parent = Frame
+        local TabFunctions = {}
 
-        local tabContent = Instance.new("Frame")
-        tabContent.Size = UDim2.new(1, -20, 1, -110)
-        tabContent.Position = UDim2.new(0, 10, 0, 90)
-        tabContent.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-        tabContent.Visible = false
-        tabContent.Parent = Frame
+        function TabFunctions:Section(sectionName)
+            local sectionLabel = Instance.new("TextLabel", tabFrame)
+            sectionLabel.Size = UDim2.new(1, 0, 0, 30)
+            sectionLabel.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+            sectionLabel.Text = sectionName
+            sectionLabel.TextColor3 = Color3.new(1, 1, 1)
+            sectionLabel.Font = Enum.Font.SourceSans
+            sectionLabel.TextSize = 20
+            sectionLabel.Name = "SectionLabel"
 
-        tabButton.MouseButton1Click:Connect(function()
-            for _, v in pairs(tabs) do
-                v.content.Visible = false
-                v.button.BackgroundColor3 = self.Theme.Accent
+            local SectionFunctions = {}
+
+            function SectionFunctions:Button(text, callback)
+                local button = Instance.new("TextButton", tabFrame)
+                button.Size = UDim2.new(0, 200, 0, 40)
+                button.Position = UDim2.new(0, 100, 0, 40)
+                button.Text = text
+                button.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+                button.TextColor3 = Color3.new(1, 1, 1)
+                button.Font = Enum.Font.SourceSans
+                button.TextSize = 18
+                button.MouseButton1Click:Connect(function()
+                    callback()
+                end)
             end
-            tabContent.Visible = true
-            tabButton.BackgroundColor3 = Color3.fromRGB(0,120,200)
-        end)
 
-        table.insert(tabs, {button = tabButton, content = tabContent})
+            return SectionFunctions
+        end
 
-        return tabContent
+        return TabFunctions
     end
 
-    -- Kullanıcıya kolaylık için
-    Frame.CreateTab = createTab
-
-    return Frame
+    return WindowFunctions
 end
 
-return MyUILib
+-- ÖRNEK KULLANIM:
+local myWindow = Library:Window("MyCustomUI")
+local tab1 = myWindow:Tab("MainTab")
+local section1 = tab1:Section("MainSection")
+section1:Button("Click Me!", function()
+    print("You clicked the button!")
+end)
