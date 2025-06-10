@@ -1,164 +1,147 @@
-local Library = {}
+local Noctalis = {}
 
-function Library:Window(name)
-    -- Create main window
-    local Options = Instance.new("ScreenGui")
-    local Frame = Instance.new("Frame")
-    local TopBar = Instance.new("Frame")
-    local TabButton = Instance.new("ImageLabel")
-    local Close = Instance.new("ImageLabel")
-    local Minimize = Instance.new("ImageLabel")
-    local Tabs = Instance.new("Frame")
+function Noctalis:Window(name)
+    local player = game.Players.LocalPlayer
+    local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+    gui.Name = "NoctalisUI"
+    gui.ZIndexBehavior = Enum.ZIndexBehavior.Global
 
-    Options.Name = "Options"
-    Options.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-    Options.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    local main = Instance.new("Frame", gui)
+    main.Size = UDim2.new(0, 600, 0, 400)
+    main.Position = UDim2.new(0.5, -300, 0.5, -200)
+    main.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    main.BorderSizePixel = 0
+    main.Name = name
 
-    Frame.Parent = Options
-    Frame.BackgroundColor3 = Color3.fromRGB(5, 5, 5)
-    Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    Frame.BorderSizePixel = 0
-    Frame.Position = UDim2.new(0.403124988, 0, 0.297773659, 0)
-    Frame.Size = UDim2.new(0, 492, 0, 319)
+    local stroke = Instance.new("UIStroke", main)
+    stroke.Thickness = 2
+    stroke.Color = Color3.fromRGB(85, 170, 255)
 
-    TopBar.Name = "TopBar"
-    TopBar.Parent = Frame
-    TopBar.BackgroundColor3 = Color3.fromRGB(5, 5, 5)
-    TopBar.BorderColor3 = Color3.fromRGB(30, 30, 30)
-    TopBar.Position = UDim2.new(-0.000245629286, 0, -0.128526643, 0)
-    TopBar.Size = UDim2.new(0, 491, 0, 41)
+    local corner = Instance.new("UICorner", main)
+    corner.CornerRadius = UDim.new(0, 12)
 
-    TabButton.Name = "TabButton"
-    TabButton.Parent = TopBar
-    TabButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    TabButton.BackgroundTransparency = 1.000
-    TabButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    TabButton.BorderSizePixel = 0
-    TabButton.Position = UDim2.new(0.0187398084, 0, 0.301219672, 0)
-    TabButton.Size = UDim2.new(0, 15, 0, 15)
-    TabButton.Image = "rbxassetid://11432865277"
-    TabButton.ImageColor3 = Color3.fromRGB(150, 150, 150)
+    local drag = Instance.new("Frame", main)
+    drag.Size = UDim2.new(1, 0, 0, 30)
+    drag.BackgroundTransparency = 1
+    drag.Name = "DragTop"
 
-    Close.Name = "Close"
-    Close.Parent = TopBar
-    Close.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    Close.BackgroundTransparency = 1.000
-    Close.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    Close.BorderSizePixel = 0
-    Close.Position = UDim2.new(0.951122761, 0, 0.317073166, 0)
-    Close.Size = UDim2.new(0, 15, 0, 15)
-    Close.Image = "rbxassetid://11293981586"
-    Close.ImageColor3 = Color3.fromRGB(150, 150, 150)
+    -- DRAG SYSTEM
+    local UserInputService = game:GetService("UserInputService")
+    local dragging, dragInput, dragStart, startPos
 
-    Minimize.Name = "Minimize"
-    Minimize.Parent = TopBar
-    Minimize.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    Minimize.BackgroundTransparency = 1.000
-    Minimize.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    Minimize.BorderSizePixel = 0
-    Minimize.Position = UDim2.new(0.897212207, 0, 0.316999853, 0)
-    Minimize.Size = UDim2.new(0, 15, 0, 15)
-    Minimize.Image = "rbxassetid://11293980042"
-    Minimize.ImageColor3 = Color3.fromRGB(150, 150, 150)
+    drag.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            dragStart = input.Position
+            startPos = main.Position
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then dragging = false end
+            end)
+        end
+    end)
 
-    Tabs.Name = "Tabs"
-    Tabs.Parent = Frame
-    Tabs.BackgroundColor3 = Color3.fromRGB(5, 5, 5)
-    Tabs.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    Tabs.BorderSizePixel = 0
-    Tabs.Position = UDim2.new(0, 0, 0.0118329758, 0)
-    Tabs.Size = UDim2.new(0, 155, 0, 315)
+    drag.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement then dragInput = input end
+    end)
 
-    -- Window functions
-    local WindowFunctions = {}
+    UserInputService.InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            local delta = input.Position - dragStart
+            main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        end
+    end)
 
-    function WindowFunctions:Tab(name)
-        local TabButton = Instance.new("TextButton")
-        local Name = Instance.new("TextLabel")
-        local Icon = Instance.new("ImageLabel")
+    -- Tab UI
+    local tabContainer = Instance.new("Frame", main)
+    tabContainer.Size = UDim2.new(0, 150, 1, 0)
+    tabContainer.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    tabContainer.BorderSizePixel = 0
 
-        TabButton.Name = "TabButton"
-        TabButton.Parent = Frame
-        TabButton.BackgroundColor3 = Color3.fromRGB(5, 5, 5)
-        TabButton.BorderColor3 = Color3.fromRGB(30, 30, 30)
-        TabButton.Position = UDim2.new(-0.000822361908, 0, 0.00940438826, 0)
-        TabButton.Size = UDim2.new(0, 147, 0, 41)
-        TabButton.Font = Enum.Font.SourceSans
-        TabButton.Text = ""
-        TabButton.TextColor3 = Color3.fromRGB(0, 0, 0)
-        TabButton.TextSize = 14.000
+    local tabsFolder = Instance.new("Folder", main)
+    tabsFolder.Name = "Tabs"
 
-        Name.Name = "Name"
-        Name.Parent = TabButton
-        Name.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        Name.BackgroundTransparency = 1.000
-        Name.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        Name.BorderSizePixel = 0
-        Name.Position = UDim2.new(0.257078409, 0, 0.024390243, 0)
-        Name.Size = UDim2.new(0, 117, 0, 40)
-        Name.Font = Enum.Font.SourceSansBold
-        Name.Text = name or "Tab"
-        Name.TextColor3 = Color3.fromRGB(150, 150, 150)
-        Name.TextSize = 15.000
-        Name.TextXAlignment = Enum.TextXAlignment.Left
+    local windowFunctions = {}
 
-        Icon.Name = "Icon"
-        Icon.Parent = TabButton
-        Icon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        Icon.BackgroundTransparency = 1.000
-        Icon.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        Icon.BorderSizePixel = 0
-        Icon.Position = UDim2.new(0, 5, 0.244000003, 0)
-        Icon.Size = UDim2.new(0, 20, 0, 20)
-        Icon.Image = "rbxassetid://12967526257"
-        Icon.ImageColor3 = Color3.fromRGB(150, 150, 150)
+    function windowFunctions:Tab(tabName, iconId) -- iconId örneği: "rbxassetid://123456"
+        local button = Instance.new("TextButton", tabContainer)
+        button.Size = UDim2.new(1, 0, 0, 40)
+        button.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+        button.Text = "   " .. tabName
+        button.Font = Enum.Font.GothamBold
+        button.TextColor3 = Color3.new(1, 1, 1)
+        button.TextXAlignment = Enum.TextXAlignment.Left
 
-        -- Tab functions
-        local TabFunctions = {}
+        local icon
+        if iconId then
+            icon = Instance.new("ImageLabel", button)
+            icon.Size = UDim2.new(0, 20, 0, 20)
+            icon.Position = UDim2.new(0, 10, 0.5, -10)
+            icon.Image = iconId
+            icon.BackgroundTransparency = 1
+        end
 
-        function TabFunctions:Section(name)
-            local SectionFrame = Instance.new("Frame")
-            local SectionTitle = Instance.new("TextLabel")
-            
-            -- Section creation code here
-            -- ...
-            
-            -- Section functions
-            local SectionFunctions = {}
+        local tabFrame = Instance.new("Frame", tabsFolder)
+        tabFrame.Size = UDim2.new(1, -150, 1, 0)
+        tabFrame.Position = UDim2.new(0, 150, 0, 0)
+        tabFrame.BackgroundTransparency = 1
+        tabFrame.Visible = false
 
-            function SectionFunctions:Button(text, callback)
-                local Button = Instance.new("TextButton")
-                -- Button creation code here
-                -- ...
-                
-                if callback then
-                    Button.MouseButton1Click:Connect(callback)
-                end
+        button.MouseButton1Click:Connect(function()
+            for _, t in pairs(tabsFolder:GetChildren()) do t.Visible = false end
+            tabFrame.Visible = true
+        end)
+
+        local tabFunctions = {}
+
+        function tabFunctions:Section(sectionTitle)
+            local label = Instance.new("TextLabel", tabFrame)
+            label.Size = UDim2.new(1, -20, 0, 30)
+            label.Position = UDim2.new(0, 10, 0, 10)
+            label.BackgroundTransparency = 1
+            label.Text = sectionTitle
+            label.Font = Enum.Font.GothamSemibold
+            label.TextColor3 = Color3.new(1, 1, 1)
+            label.TextSize = 18
+            label.TextXAlignment = Enum.TextXAlignment.Left
+
+            local frame = Instance.new("Frame", tabFrame)
+            frame.Size = UDim2.new(1, -20, 0, 300)
+            frame.Position = UDim2.new(0, 10, 0, 40)
+            frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+            frame.BorderSizePixel = 0
+
+            local corner = Instance.new("UICorner", frame)
+            corner.CornerRadius = UDim.new(0, 8)
+
+            local layout = Instance.new("UIListLayout", frame)
+            layout.Padding = UDim.new(0, 6)
+            layout.SortOrder = Enum.SortOrder.LayoutOrder
+
+            local sectionFunctions = {}
+
+            function sectionFunctions:Button(text, callback)
+                local btn = Instance.new("TextButton", frame)
+                btn.Size = UDim2.new(1, 0, 0, 40)
+                btn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+                btn.Text = text
+                btn.Font = Enum.Font.GothamBold
+                btn.TextColor3 = Color3.new(1, 1, 1)
+
+                local corner = Instance.new("UICorner", btn)
+                corner.CornerRadius = UDim.new(0, 6)
+
+                btn.MouseButton1Click:Connect(function()
+                    if callback then pcall(callback) end
+                end)
             end
 
-            return SectionFunctions
+            return sectionFunctions
         end
 
-        return TabFunctions
+        return tabFunctions
     end
 
-    -- Close button functionality
-    Close.MouseButton1Click:Connect(function()
-        Options:Destroy()
-    end)
-
-    -- Minimize button functionality
-    local isMinimized = false
-    Minimize.MouseButton1Click:Connect(function()
-        isMinimized = not isMinimized
-        if isMinimized then
-            Frame.Size = UDim2.new(0, 492, 0, 41)
-        else
-            Frame.Size = UDim2.new(0, 492, 0, 319)
-        end
-    end)
-
-    return WindowFunctions
+    return windowFunctions
 end
 
-return Library
+return Noctalis
